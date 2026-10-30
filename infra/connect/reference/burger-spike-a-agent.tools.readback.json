@@ -1,0 +1,76 @@
+versions [ 1 ]
+[
+ {
+  "toolName": "Complete",
+  "toolType": "RETURN_TO_CONTROL",
+  "instruction": {
+   "instruction": "Mark the conversation as complete ONLY after confirming the customer has no additional questions or needs. Always ask if there's anything else you can help with before using this tool."
+  },
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "reason": {
+     "type": "string",
+     "description": "Reason of completion"
+    }
+   },
+   "required": [
+    "reason"
+   ]
+  }
+ },
+ {
+  "toolName": "SpikeAdvance",
+  "toolType": "MODEL_CONTEXT_PROTOCOL",
+  "toolId": "aws_custom_flows__279dd4e3-b827-4ed4-810b-a84a3dc24c5d_1",
+  "instruction": {
+   "instruction": "Call this when the customer says \"advance\"",
+   "examples": []
+  },
+  "overrideInputValues": [
+   {
+    "jsonPath": "$.assistantId",
+    "value": {
+     "constant": {
+      "type": "STRING",
+      "value": "{{$.assistantId}}"
+     }
+    }
+   },
+   {
+    "jsonPath": "$.contactId",
+    "value": {
+     "constant": {
+      "type": "STRING",
+      "value": "{{$.contactId}}"
+     }
+    }
+   },
+   {
+    "jsonPath": "$.sessionId",
+    "value": {
+     "constant": {
+      "type": "STRING",
+      "value": "{{$.sessionId}}"
+     }
+    }
+   }
+  ],
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "contactId": {
+     "type": "string"
+    },
+    "sessionId": {
+     "type": "string"
+    },
+    "assistantId": {
+     "type": "string"
+    }
+   },
+   "required": []
+  }
+ }
+]
+["orchestrationAIPromptId","toolConfigurations","connectInstanceArn","locale"]

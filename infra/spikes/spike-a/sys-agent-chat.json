@@ -1,0 +1,21 @@
+{
+    "aiAgent": {
+        "assistantId": "<ASSISTANT_ID>",
+        "assistantArn": "arn:aws:wisdom:ca-central-1:<ACCOUNT_ID>:assistant/<ASSISTANT_ID>",
+        "aiAgentId": "aa71963b-9e94-41a9-9e71-9dee98c6eee4",
+        "aiAgentArn": "arn:aws:wisdom:ca-central-1:<ACCOUNT_ID>:ai-agent/<ASSISTANT_ID>/aa71963b-9e94-41a9-9e71-9dee98c6eee4:$LATEST",
+        "name": "SelfServiceOrchestratorChat",
+        "type": "ORCHESTRATION",
+        "configuration": {
+            "SDK_UNKNOWN_MEMBER": {
+                "name": "orchestrationAIAgentConfiguration"
+            }
+        },
+        "modifiedTime": "1969-12-31T19:00:00-05:00",
+        "description": "System AIAgent for end-customer self-service",
+        "visibilityStatus": "PUBLISHED",
+        "tags": {},
+        "origin": "SYSTEM",
+        "status": "ACTIVE"
+    }
+}

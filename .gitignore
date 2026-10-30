@@ -1,0 +1,13 @@
+node_modules/
+.next/
+dist/
+coverage/
+cdk.out/
+.env
+.env.*
+!.env.example
+!.env.deploy.example
+*.zip
+infra/spikes/**/out.json
+tsconfig.tsbuildinfo
+next-env.d.ts

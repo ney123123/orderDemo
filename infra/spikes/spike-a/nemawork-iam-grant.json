@@ -1,0 +1,57 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ManageBurgerRolesOnly",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateRole",
+        "iam:DeleteRole",
+        "iam:GetRole",
+        "iam:TagRole",
+        "iam:PutRolePolicy",
+        "iam:DeleteRolePolicy",
+        "iam:GetRolePolicy",
+        "iam:AttachRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:ListRolePolicies",
+        "iam:ListAttachedRolePolicies"
+      ],
+      "Resource": "arn:aws:iam::<ACCOUNT_ID>:role/burger-*"
+    },
+    {
+      "Sid": "PassBurgerRolesToLambdaAndLexOnly",
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": "arn:aws:iam::<ACCOUNT_ID>:role/burger-*",
+      "Condition": {
+        "StringEquals": {
+          "iam:PassedToService": [
+            "lambda.amazonaws.com",
+            "lexv2.amazonaws.com"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "LexBotsInThisAccountRegion",
+      "Effect": "Allow",
+      "Action": "lex:*",
+      "Resource": [
+        "arn:aws:lex:ca-central-1:<ACCOUNT_ID>:bot/*",
+        "arn:aws:lex:ca-central-1:<ACCOUNT_ID>:bot-alias/*"
+      ]
+    },
+    {
+      "Sid": "LexUnscopedActions",
+      "Effect": "Allow",
+      "Action": [
+        "lex:ListBots",
+        "lex:ListBuiltInIntents",
+        "lex:ListBuiltInSlotTypes",
+        "lex:CreateBot"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

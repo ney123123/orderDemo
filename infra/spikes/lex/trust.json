@@ -1,0 +1,4 @@
+{"Version":"2012-10-17","Statement":[
+ {"Effect":"Allow","Principal":{"Service":"lexv2.amazonaws.com"},"Action":"sts:AssumeRole","Condition":{"StringEquals":{"aws:SourceAccount":"<ACCOUNT_ID>"}}},
+ {"Sid":"LexV2InternalTrustPolicy","Effect":"Allow","Principal":{"Service":"lexv2.aws.internal"},"Action":"sts:AssumeRole","Condition":{"StringEquals":{"aws:SourceAccount":"<ACCOUNT_ID>"},"ArnLike":{"aws:SourceArn":"arn:aws:lex:*:<ACCOUNT_ID>:bot-alias/ULOA5KGGSK/*"}}}
+]}

@@ -1,0 +1,7 @@
+{"Version":"2012-10-17","Statement":[
+ {"Sid":"Polly","Effect":"Allow","Action":"polly:SynthesizeSpeech","Resource":"*"},
+ {"Sid":"QInConnectAssistantPolicy","Effect":"Allow","Action":["wisdom:CreateSession","wisdom:GetAssistant"],
+  "Resource":["arn:aws:wisdom:ca-central-1:<ACCOUNT_ID>:assistant/<ASSISTANT_ID>","arn:aws:wisdom:ca-central-1:<ACCOUNT_ID>:assistant/<ASSISTANT_ID>/*"]},
+ {"Sid":"QInConnectSessionsPolicy","Effect":"Allow","Action":["wisdom:SendMessage","wisdom:GetNextMessage"],
+  "Resource":["arn:aws:wisdom:ca-central-1:<ACCOUNT_ID>:session/<ASSISTANT_ID>/*"]}
+]}

@@ -1,0 +1,44 @@
+{
+  "name": "burger-order-demo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "hash-password": "node scripts/hash-password.mjs",
+    "dynamo:local-table": "node scripts/create-local-table.mjs",
+    "test:aws": "DYNAMODB_AWS_TEST=1 vitest run tests/integration/repository.contract.test.ts",
+    "aws:cleanup-test-tables": "node scripts/delete-test-tables.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-connect": "3.1152.0",
+    "@aws-sdk/client-dynamodb": "3.1152.0",
+    "@aws-sdk/client-qconnect": "3.1152.0",
+    "@aws-sdk/lib-dynamodb": "3.1152.0",
+    "next": "16.4.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-appintegrations": "3.1152.0",
+    "@aws-sdk/client-bedrock-agentcore-control": "3.1152.0",
+    "@aws-sdk/client-cloudwatch-logs": "3.1152.0",
+    "@aws-sdk/client-connectparticipant": "3.1152.0",
+    "@aws-sdk/client-iam": "3.1152.0",
+    "@aws-sdk/client-lambda": "3.1152.0",
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "^26.6.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "esbuild": "0.28.2",
+    "tailwindcss": "4.3.3",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}

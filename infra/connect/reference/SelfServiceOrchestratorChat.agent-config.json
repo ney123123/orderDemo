@@ -1,0 +1,421 @@
+{
+ "orchestrationAIAgentConfiguration": {
+  "orchestrationAIPromptId": "156bf3e3-4f10-4274-bc51-14739238eb23:3",
+  "toolConfigurations": [
+   {
+    "toolName": "Complete",
+    "toolType": "RETURN_TO_CONTROL",
+    "description": "Close conversation when customer has no more questions",
+    "instruction": {
+     "instruction": "Mark the conversation as complete ONLY after confirming the customer has no additional questions or needs. Always ask if there's anything else you can help with before using this tool."
+    },
+    "inputSchema": {
+     "type": "object",
+     "properties": {
+      "reason": {
+       "type": "string",
+       "description": "Reason of completion"
+      }
+     },
+     "required": [
+      "reason"
+     ]
+    },
+    "userInteractionConfiguration": {
+     "isUserConfirmationRequired": false
+    }
+   },
+   {
+    "toolName": "Escalate",
+    "toolType": "RETURN_TO_CONTROL",
+    "description": "Escalate to human agent when customer issue can not solve",
+    "instruction": {
+     "instruction": "Escalate the conversation to a human agent when you cannot provide adequate assistance, when other tools fail or return errors, or when the customer's request requires human intervention.",
+     "examples": [
+      "Good example - Tool errors:\n<message>\nI'm having trouble accessing the information you need right now. Would you like me to connect you with a human agent who can help you further?\n</message>",
+      "Good example - Frustrated customer:\n<message>\nI understand your frustration with this issue. Would you like me to connect you with a human agent who can help you further?\n</message>",
+      "Bad example (avoid this):\n<message>\nI'm unable to help with this. Let me escalate you to a human agent.\n</message>"
+     ]
+    },
+    "inputSchema": {
+     "type": "object",
+     "properties": {
+      "reason": {
+       "type": "string",
+       "description": "Reason of escalation"
+      }
+     },
+     "required": [
+      "reason"
+     ]
+    },
+    "userInteractionConfiguration": {
+     "isUserConfirmationRequired": false
+    }
+   },
+   {
+    "toolName": "Retrieve",
+    "toolType": "MODEL_CONTEXT_PROTOCOL",
+    "toolId": "aws_service__qconnect_Retrieve",
+    "description": "Searches the knowledge base to return relevant knowledge article excerpts.",
+    "instruction": {
+     "instruction": "Search the knowledge base using semantic search to find relevant information. Use the results of the RETRIEVE tool to provide an informed answer to the customer's query.",
+     "examples": [
+      "Good example:\n<message>\n  I found your warranty covers parts replacement for any manufacturing defects during the first year. We offer extended warranty coverage for eligible products beyond the manufacturer's warranty period.\n</message>",
+      "Example for no results:\n<message>\nI don't have specific information about that topic available.\n</message>"
+     ]
+    },
+    "overrideInputValues": [
+     {
+      "jsonPath": "$.assistantId",
+      "value": {
+       "constant": {
+        "type": "STRING",
+        "value": "{{$.assistantId}}"
+       }
+      }
+     },
+     {
+      "jsonPath": "$.retrievalConfiguration.knowledgeSource.assistantAssociationIds",
+      "value": {
+       "constant": {
+        "type": "JSON_STRING",
+        "value": "{{$.knowledgeBaseAssistantAssociationIds}}"
+       }
+      }
+     }
+    ],
+    "inputSchema": {
+     "type": "object",
+     "properties": {
+      "assistantId": {
+       "type": "string"
+      },
+      "retrievalConfiguration": {
+       "type": "object",
+       "properties": {
+        "knowledgeSource": {
+         "type": "object",
+         "properties": {
+          "assistantAssociationIds": {
+           "type": "array",
+           "items": {
+            "type": "string"
+           },
+           "uniqueItems": false
+          }
+         },
+         "required": [],
+         "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "filter": {
+         "type": "object",
+         "properties": {
+          "in": {
+           "type": "object",
+           "properties": {
+            "value": {
+             "type": "object",
+             "properties": {},
+             "required": [],
+             "additionalProperties": true,
+             "$schema": "http://json-schema.org/draft-07/schema#"
+            },
+            "key": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "key",
+            "value"
+           ],
+           "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "andAll": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "$schema": "http://json-schema.org/draft-07/schema#"
+           },
+           "uniqueItems": false
+          },
+          "lessThanOrEquals": {
+           "type": "object",
+           "properties": {
+            "value": {
+             "type": "object",
+             "properties": {},
+             "required": [],
+             "additionalProperties": true,
+             "$schema": "http://json-schema.org/draft-07/schema#"
+            },
+            "key": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "key",
+            "value"
+           ],
+           "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "greaterThanOrEquals": {
+           "type": "object",
+           "properties": {
+            "value": {
+             "type": "object",
+             "properties": {},
+             "required": [],
+             "additionalProperties": true,
+             "$schema": "http://json-schema.org/draft-07/schema#"
+            },
+            "key": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "key",
+            "value"
+           ],
+           "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "orAll": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "$schema": "http://json-schema.org/draft-07/schema#"
+           },
+           "uniqueItems": false
+          },
+          "equals": {
+           "type": "object",
+           "properties": {
+            "value": {
+             "type": "object",
+             "properties": {},
+             "required": [],
+             "additionalProperties": true,
+             "$schema": "http://json-schema.org/draft-07/schema#"
+            },
+            "key": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "key",
+            "value"
+           ],
+           "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "lessThan": {
+           "type": "object",
+           "properties": {
+            "value": {
+             "type": "object",
+             "properties": {},
+             "required": [],
+             "additionalProperties": true,
+             "$schema": "http://json-schema.org/draft-07/schema#"
+            },
+            "key": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "key",
+            "value"
+           ],
+           "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "notEquals": {
+           "type": "object",
+           "properties": {
+            "value": {
+             "type": "object",
+             "properties": {},
+             "required": [],
+             "additionalProperties": true,
+             "$schema": "http://json-schema.org/draft-07/schema#"
+            },
+            "key": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "key",
+            "value"
+           ],
+           "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "stringContains": {
+           "type": "object",
+           "properties": {
+            "value": {
+             "type": "object",
+             "properties": {},
+             "required": [],
+             "additionalProperties": true,
+             "$schema": "http://json-schema.org/draft-07/schema#"
+            },
+            "key": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "key",
+            "value"
+           ],
+           "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "listContains": {
+           "type": "object",
+           "properties": {
+            "value": {
+             "type": "object",
+             "properties": {},
+             "required": [],
+             "additionalProperties": true,
+             "$schema": "http://json-schema.org/draft-07/schema#"
+            },
+            "key": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "key",
+            "value"
+           ],
+           "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "notIn": {
+           "type": "object",
+           "properties": {
+            "value": {
+             "type": "object",
+             "properties": {},
+             "required": [],
+             "additionalProperties": true,
+             "$schema": "http://json-schema.org/draft-07/schema#"
+            },
+            "key": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "key",
+            "value"
+           ],
+           "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "greaterThan": {
+           "type": "object",
+           "properties": {
+            "value": {
+             "type": "object",
+             "properties": {},
+             "required": [],
+             "additionalProperties": true,
+             "$schema": "http://json-schema.org/draft-07/schema#"
+            },
+            "key": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "key",
+            "value"
+           ],
+           "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "startsWith": {
+           "type": "object",
+           "properties": {
+            "value": {
+             "type": "object",
+             "properties": {},
+             "required": [],
+             "additionalProperties": true,
+             "$schema": "http://json-schema.org/draft-07/schema#"
+            },
+            "key": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "key",
+            "value"
+           ],
+           "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+         },
+         "required": [],
+         "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "overrideKnowledgeBaseSearchType": {
+         "type": "string"
+        },
+        "numberOfResults": {
+         "type": "number"
+        }
+       },
+       "required": [
+        "knowledgeSource"
+       ],
+       "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "retrievalQuery": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "assistantId",
+      "retrievalConfiguration",
+      "retrievalQuery"
+     ],
+     "$schema": "http://json-schema.org/draft-07/schema#"
+    },
+    "outputSchema": {
+     "type": "object",
+     "properties": {
+      "results": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "sourceId": {
+          "type": "string"
+         },
+         "contentText": {
+          "type": "string"
+         },
+         "referenceType": {
+          "type": "string"
+         },
+         "associationId": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "associationId",
+         "sourceId",
+         "referenceType",
+         "contentText"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+       },
+       "uniqueItems": false
+      }
+     },
+     "required": [
+      "results"
+     ],
+     "$schema": "http://json-schema.org/draft-07/schema#"
+    },
+    "userInteractionConfiguration": {
+     "isUserConfirmationRequired": false
+    }
+   }
+  ],
+  "locale": "en_US"
+ }
+}

@@ -1,0 +1,89 @@
+{
+  "Version": "2019-10-30",
+  "StartAction": "logging",
+  "Actions": [
+    {
+      "Identifier": "logging",
+      "Type": "UpdateFlowLoggingBehavior",
+      "Parameters": {
+        "FlowLoggingBehavior": "Enabled"
+      },
+      "Transitions": {
+        "NextAction": "assistant"
+      }
+    },
+    {
+      "Identifier": "assistant",
+      "Type": "CreateWisdomSession",
+      "Parameters": {
+        "WisdomAssistantArn": "arn:aws:wisdom:ca-central-1:<ACCOUNT_ID>:assistant/<ASSISTANT_ID>"
+      },
+      "Transitions": {
+        "NextAction": "seed-step",
+        "Errors": [
+          {
+            "NextAction": "disconnect",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Identifier": "seed-step",
+      "Type": "InvokeLambdaFunction",
+      "Parameters": {
+        "LambdaFunctionARN": "arn:aws:lambda:ca-central-1:<ACCOUNT_ID>:function:burger-spike-a-update-session",
+        "InvocationTimeLimitSeconds": "8",
+        "InvocationType": "SYNCHRONOUS",
+        "LambdaInvocationAttributes": {
+          "orderState": "STEP-1"
+        },
+        "ResponseValidation": {
+          "ResponseType": "STRING_MAP"
+        }
+      },
+      "Transitions": {
+        "NextAction": "ai-agent",
+        "Errors": [
+          {
+            "NextAction": "ai-agent",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Identifier": "ai-agent",
+      "Type": "ConnectParticipantWithLexBot",
+      "Parameters": {
+        "Text": "Hi! This is the burger spike test. Say anything to begin.",
+        "LexV2Bot": {
+          "AliasArn": "arn:aws:lex:ca-central-1:<ACCOUNT_ID>:bot-alias/ULOA5KGGSK/C3QAJ1I5W3"
+        }
+      },
+      "Transitions": {
+        "NextAction": "disconnect",
+        "Errors": [
+          {
+            "NextAction": "disconnect",
+            "ErrorType": "NoMatchingCondition"
+          },
+          {
+            "NextAction": "disconnect",
+            "ErrorType": "NoMatchingError"
+          },
+          {
+            "NextAction": "disconnect",
+            "ErrorType": "InputTimeLimitExceeded"
+          }
+        ]
+      }
+    },
+    {
+      "Identifier": "disconnect",
+      "Type": "DisconnectParticipant",
+      "Parameters": {},
+      "Transitions": {}
+    }
+  ]
+}

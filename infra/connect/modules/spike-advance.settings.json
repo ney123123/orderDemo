@@ -1,0 +1,32 @@
+{
+ "input": {
+  "schema": {
+   "type": "object",
+   "properties": {
+    "contactId": {
+     "type": "string"
+    },
+    "sessionId": {
+     "type": "string"
+    },
+    "assistantId": {
+     "type": "string"
+    }
+   },
+   "required": []
+  }
+ },
+ "resultData": {
+  "schema": {
+   "type": "object",
+   "properties": {
+    "result": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "result"
+   ]
+  }
+ }
+}

@@ -1,0 +1,125 @@
+{
+ "Version": "2019-10-30",
+ "StartAction": "f144169a-575b-49cd-a6e6-7620bf3c48da",
+ "Metadata": {
+  "entryPointPosition": {
+   "x": 40,
+   "y": 40
+  },
+  "ActionMetadata": {
+   "0793693c-1db9-4685-ab17-d21616921649": {
+    "position": {
+     "x": 218.4,
+     "y": 342.4
+    },
+    "parameters": {
+     "ResultData": {
+      "result": {
+       "useDynamic": true
+      }
+     }
+    }
+   },
+   "f144169a-575b-49cd-a6e6-7620bf3c48da": {
+    "position": {
+     "x": 505.6,
+     "y": 154.4
+    },
+    "parameters": {
+     "LambdaFunctionARN": {
+      "displayName": "burger-spike-a-update-session"
+     },
+     "LambdaInvocationAttributes": {
+      "contactId": {
+       "useDynamic": true
+      },
+      "sessionId": {
+       "useDynamic": true
+      },
+      "assistantId": {
+       "useDynamic": true
+      }
+     }
+    },
+    "dynamicMetadata": {
+     "orderState": false,
+     "contactId": true,
+     "sessionId": true,
+     "assistantId": true
+    }
+   },
+   "9d3d365a-5256-44aa-961c-ad442a1ccfb5": {
+    "position": {
+     "x": 714.4,
+     "y": 361.6
+    }
+   }
+  },
+  "Annotations": []
+ },
+ "Actions": [
+  {
+   "Parameters": {
+    "ResultData": {
+     "result": "$.External.result"
+    }
+   },
+   "Identifier": "0793693c-1db9-4685-ab17-d21616921649",
+   "Type": "EndFlowModuleExecution",
+   "Transitions": {}
+  },
+  {
+   "Parameters": {
+    "LambdaFunctionARN": "arn:aws:lambda:ca-central-1:<ACCOUNT_ID>:function:burger-spike-a-update-session",
+    "InvocationTimeLimitSeconds": "8",
+    "InvocationType": "SYNCHRONOUS",
+    "LambdaInvocationAttributes": {
+     "orderState": "STEP-2",
+     "contactId": "$.Modules.Input.contactId",
+     "sessionId": "$.Modules.Input.sessionId",
+     "assistantId": "$.Modules.Input.assistantId"
+    },
+    "ResponseValidation": {
+     "ResponseType": "STRING_MAP"
+    }
+   },
+   "Identifier": "f144169a-575b-49cd-a6e6-7620bf3c48da",
+   "Type": "InvokeLambdaFunction",
+   "Transitions": {
+    "NextAction": "0793693c-1db9-4685-ab17-d21616921649",
+    "Errors": [
+     {
+      "NextAction": "9d3d365a-5256-44aa-961c-ad442a1ccfb5",
+      "ErrorType": "NoMatchingError"
+     }
+    ]
+   }
+  },
+  {
+   "Parameters": {
+    "ResultData": {
+     "result": "ERROR"
+    }
+   },
+   "Identifier": "9d3d365a-5256-44aa-961c-ad442a1ccfb5",
+   "Type": "EndFlowModuleExecution",
+   "Transitions": {}
+  }
+ ],
+ "Settings": {
+  "InputParameters": [],
+  "OutputParameters": [],
+  "Transitions": [
+   {
+    "DisplayName": "Success",
+    "ReferenceName": "Success",
+    "Description": ""
+   },
+   {
+    "DisplayName": "Error",
+    "ReferenceName": "Error",
+    "Description": ""
+   }
+  ]
+ }
+}

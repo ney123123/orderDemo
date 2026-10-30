@@ -1,0 +1,11 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    { "Effect": "Allow", "Action": ["logs:CreateLogGroup","logs:CreateLogStream","logs:PutLogEvents"],
+      "Resource": "arn:aws:logs:ca-central-1:<ACCOUNT_ID>:log-group:/aws/lambda/burger-*" },
+    { "Effect": "Allow", "Action": "connect:DescribeContact",
+      "Resource": "arn:aws:connect:ca-central-1:<ACCOUNT_ID>:instance/<INSTANCE_ID>/contact/*" },
+    { "Effect": "Allow", "Action": "wisdom:UpdateSessionData",
+      "Resource": "arn:aws:wisdom:ca-central-1:<ACCOUNT_ID>:session/<ASSISTANT_ID>/*" }
+  ]
+}
